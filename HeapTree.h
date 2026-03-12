@@ -10,7 +10,11 @@ class HeapTree {
     // Internal array of ints
     int* intArray;
 
+    // Length of the array, currently 100
     int size;
+
+    // Construct the array 
+    void ConstructArray();
 
     // Swap a and b in memory
     void Swap(int& a, int& b);
@@ -45,7 +49,7 @@ class HeapTree {
     HeapTree(int* in_intArray, int bufferSize);
 
     // Constructor for a file
-    HeapTree(char* fileName);
+    HeapTree(const char* fileName);
     
     // Destructor
     ~HeapTree();

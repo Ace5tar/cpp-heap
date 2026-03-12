@@ -1,24 +1,32 @@
 #include <iostream>
+#include <fstream>
 #include "HeapTree.h"
 
-HeapTree::HeapTree() {
+
+void HeapTree::ConstructArray() {
   size = 100;
-  intArray = new int[size];
-  for (int i = 0; i < size; ++i) {
-    intArray[i] = 0;
-  }
-  
+  intArray = new int[size]{};
+}
+
+HeapTree::HeapTree() {
+  ConstructArray();
 }
 
 HeapTree::HeapTree(int* in_intArray, int bufferSize) {
-  HeapTree();
+  ConstructArray();
   for (int i = 0; i < bufferSize; ++i) {
-    intArray[i] = in_intArray[i];
+    insert(in_intArray[i]);
   }
 }
 
-HeapTree::HeapTree(char* fileName) {
-  // TODO: ADD FROM FILE
+HeapTree::HeapTree(const char* fileName) {
+  ConstructArray();
+  std::ifstream numbersFile(fileName);
+  int curNumber = 0;
+  while (numbersFile >> curNumber) {
+    insert(curNumber);
+  }
+  numbersFile.close();
 }
 
 HeapTree::~HeapTree(){
@@ -46,15 +54,17 @@ int HeapTree::ChildIndex(int parentIndex, treeSide side) const {
 
 std::ostream& HeapTree::RecursivePrint(std::ostream& os, int currentIndex, int depth) const {
 
-  if (intArray[currentIndex] = 0) { return os; }
+  if (intArray[currentIndex] == 0 || currentIndex > size - 1) { return os; }
 
-  RecursivePrint(os, ChildIndex(currentIndex, LEFT), depth++);
-  RecursivePrint(os, ChildIndex(currentIndex, RIGHT), depth++);
+  RecursivePrint(os, ChildIndex(currentIndex, LEFT), depth + 1);
 
   for (int i = 0; i < depth; ++i) {
-    os << "  ";
+    os << "    ";
   }
+
   os << intArray[currentIndex] << std::endl;
+
+  RecursivePrint(os, ChildIndex(currentIndex, RIGHT), depth + 1);
 
   return os;
 
