@@ -117,28 +117,18 @@ void HeapTree::RecursiveSortDown(int currentIndex) {
   int rightChildIndex = ChildIndex(currentIndex, RIGHT);
   int& rightChild = intArray[rightChildIndex];
 
-  if (leftChild < currentValue && rightChild < currentValue) {
+  if (leftChild <= currentValue && rightChild <= currentValue) {
     return;
   }
 
-  if (leftChild == 0 && rightChild && 0) {
-    return;
-  }
-
-  // Default to left child, needs to be initialized
-  int& biggerNum = leftChild;
-  int biggerNumIndex = leftChildIndex;
 
   if (leftChild > rightChild) {
-    biggerNum = leftChild;
-    biggerNumIndex = leftChildIndex;
+    Swap(leftChild, currentValue);
+    RecursiveSortDown(leftChildIndex);
   } else {
-    biggerNum = rightChild;
-    biggerNumIndex = rightChildIndex;
+    Swap(rightChild, currentValue);
+    RecursiveSortDown(rightChildIndex);
   }
-
-  Swap(biggerNum, currentValue);
-  RecursiveSortDown(biggerNumIndex);
 }
 
 void HeapTree::insert(int num) {
@@ -152,12 +142,20 @@ void HeapTree::insert(int num) {
 int HeapTree::remove() {
   int removedValue = intArray[0];
 
+  if (removedValue == 0) {return 0;}
+
   intArray[0] = 0;
+
+  Swap(intArray[0], intArray[GetLastIndex()]);
   
   RecursiveSortDown(0);
 
   return removedValue;
 }
 
-
-
+void HeapTree::clear() {
+  while(intArray[0] != 0) {
+    remove();
+    std::cout << *this << std::endl << std::endl;
+  }
+}

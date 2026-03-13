@@ -60,6 +60,9 @@ class HeapTree {
     // Remove the first member from the heaptree
     int remove();
 
+    // Remove all members from the heaptree
+    void clear();
+
     // Overload << operator for easier printing
     friend std::ostream& operator<<(std::ostream& os, const HeapTree& heapTree);
 
