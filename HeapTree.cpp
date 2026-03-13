@@ -150,12 +150,13 @@ int HeapTree::remove() {
   
   RecursiveSortDown(0);
 
+  std::cout << removedValue << std::endl;
+
   return removedValue;
 }
 
 void HeapTree::clear() {
   while(intArray[0] != 0) {
     remove();
-    std::cout << *this << std::endl << std::endl;
   }
 }
