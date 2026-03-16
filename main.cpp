@@ -5,8 +5,19 @@
 int main() {
 
   char* in = new char[80];
-  
-  HeapTree heap = HeapTree("numbers.txt");
+  HeapTree* heapPtr;
+  char useFile;
+  std::cout << "Would you like to import from file? (y/n) ";
+  std::cin >> useFile;
+  std::cin.ignore();
+
+  if (useFile == 'y') {
+    std::cout << "Input file name: ";
+    std::cin.getline(in, 80);
+    heapPtr = new HeapTree(in);
+  } else {
+    heapPtr = new HeapTree();
+  }
 
   bool running = true;
 
@@ -15,28 +26,35 @@ int main() {
     std::cout << " > ";
     std::cin.getline(in, 80);
 
+    // Quit program
     if(std::strcmp(in, "QUIT") == 0) {
       running = false;
     }
+    // Add number command
     if(std::strcmp(in, "ADD") == 0) {\
       int num;
       std::cout << "Number to add: ";
       std::cin >> num;
-      heap.insert(num);
+      std::cin.ignore();
+      heapPtr->insert(num);
     }
+    // Print command
     if(std::strcmp(in, "PRINT") == 0) {
-      std::cout << heap << std::endl;
+      std::cout << *heapPtr << std::endl;
     }
+    // Remove command
     if(std::strcmp(in, "REMOVE") == 0) {
-      heap.remove();
+      heapPtr->remove();
     }
+    // Clear command
     if(std::strcmp(in, "CLEAR") == 0) {
-      heap.clear();
+      heapPtr->clear();
     }
 
   }
 
 
+  delete heapPtr;
 
 
   return 0;

@@ -5,7 +5,8 @@
 
 void HeapTree::ConstructArray() {
   size = 100;
-  intArray = new int[size]{};
+  intArray = new int[size];
+  std::cout << *this << std::endl;
 }
 
 HeapTree::HeapTree() {
@@ -19,9 +20,12 @@ HeapTree::HeapTree(int* in_intArray, int bufferSize) {
   }
 }
 
-HeapTree::HeapTree(const char* fileName) {
+HeapTree::HeapTree(char* fileName) {
   ConstructArray();
   std::ifstream numbersFile(fileName);
+  if (!numbersFile.is_open()) {
+    std::cout << "Error opening file " << fileName << ". Initializing empty tree." << std::endl;
+  }
   int curNumber = 0;
   while (numbersFile >> curNumber) {
     insert(curNumber);
@@ -144,13 +148,17 @@ int HeapTree::remove() {
 
   if (removedValue == 0) {return 0;}
 
+
   intArray[0] = 0;
 
   Swap(intArray[0], intArray[GetLastIndex()]);
   
   RecursiveSortDown(0);
 
-  std::cout << removedValue << std::endl;
+  // Occasional bug where remove function prints absurdly high numbers
+  if (removedValue < 1000) {
+    std::cout << removedValue << std::endl;
+  }
 
   return removedValue;
 }

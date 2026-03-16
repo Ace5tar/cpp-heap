@@ -49,7 +49,7 @@ class HeapTree {
     HeapTree(int* in_intArray, int bufferSize);
 
     // Constructor for a file
-    HeapTree(const char* fileName);
+    HeapTree(char* fileName);
     
     // Destructor
     ~HeapTree();
